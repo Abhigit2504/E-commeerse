@@ -119,7 +119,7 @@ const Login = () => {
   const onSubmitHandler = async (event) => {
         event.preventDefault();
         try {
-          const hardcodedUrl = 'http://localhost:4000'; // Ensure this URL is correct
+          const hardcodedUrl = 'https://e-commeerse.onrender.com'; // Ensure this URL is correct
           if (currentState === 'Sign Up') {
             const response = await axios.post(hardcodedUrl + '/api/user/register', { name, email, password });
             
