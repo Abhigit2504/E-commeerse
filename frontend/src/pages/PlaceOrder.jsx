@@ -60,7 +60,7 @@ const PlaceOrder = () => {
       switch (method.toLowerCase()) { // Fix method case sensitivity
         case 'cod':
           // console.log(backendUrl)
-          const response = await axios.post(`http://localhost:4000/api/order/place`, orderData, { headers: { token } });
+          const response = await axios.post(`https://e-commeerse.onrender.com/api/order/place`, orderData, { headers: { token } });
           // console.log(response.data); // Log response data
           if (response.data.success) {
             setCartItems({});
