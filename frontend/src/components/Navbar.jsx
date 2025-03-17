@@ -1,30 +1,27 @@
-import React, { useContext, useEffect } from 'react'
-import { assets } from '../assets/assets'
-import { Link, NavLink } from 'react-router-dom'
-import { useState } from 'react'
-import { ShopContext } from '../context/ShopContext'
-import { getUserCart } from '../../../backend/controllers/cartController'
+import React, { useContext, useEffect } from 'react';
+import { assets } from '../assets/assets';
+import { Link, NavLink } from 'react-router-dom';
+import { useState } from 'react';
+import { ShopContext } from '../context/ShopContext';
 
 const Navbar = () => {
-
     const [visible, setVisible] = useState(false);
-
     const { setShowSearch, showSearch, getCartCount, navigate, token, setToken, setCartItems } = useContext(ShopContext);
 
     const logOut = () => {
-        navigate('/login')
-        localStorage.removeItem('token')
-        setToken('')
-        setCartItems({})
-    }
+        navigate('/login');
+        localStorage.removeItem('token');
+        setToken('');
+        setCartItems({});
+    };
 
     const handleSearchToggle = () => {
         setShowSearch(!showSearch); // Toggle the search visibility
     };
 
-    useEffect(() => {
-        // getUserCart(token)
-    }, [])
+    const handleAdminPanelClick = () => {
+        window.open('https://e-commeerse-a5yg.vercel.app/', '_blank'); // Open in a new tab
+    };
 
     return (
         <div className='flex items-center justify-between py-5 font-medium'>
@@ -35,7 +32,7 @@ const Navbar = () => {
                     <p>HOME</p>
                     <hr className='w-7 border-none h-[1.5px] bg-gray-700 hidden' />
                 </NavLink>
-                <NavLink to='/collection' className='flex flex-col items-center gap-1' >
+                <NavLink to='/collection' className='flex flex-col items-center gap-1'>
                     <p>COLLECTION</p>
                     <hr className='w-7 border-none h-[1.5px] bg-gray-700 hidden' />
                 </NavLink>
@@ -50,34 +47,35 @@ const Navbar = () => {
             </ul>
 
             <div className='flex items-center gap-6'>
-                <img onClick={() => handleSearchToggle()} src={assets.search_icon} className='w-5 cursor-pointer' alt="" />
+                <img onClick={handleSearchToggle} src={assets.search_icon} className='w-5 cursor-pointer' alt="" />
 
                 <div className='group relative'>
                     <img onClick={() => token ? null : navigate('/login')} className='w-5 cursor-pointer' src={assets.profile_icon} alt="" />
                     {/* Dropdown */}
                     {token &&
-                        <div className=' group-hover:block hidden absolute dropdown-menu right-0 pt-4'>
+                        <div className='group-hover:block hidden absolute dropdown-menu right-0 pt-4'>
                             <div className='flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded'>
                                 <p className='cursor-pointer hover:text-black'>My profile</p>
                                 <p onClick={() => navigate('/orders')} className='cursor-pointer hover:text-black'>Orders</p>
-                                <p onClick={() => window.location.href = 'https://e-commeerse-a5yg.vercel.app/'} className='cursor-pointer hover:text-black'>Admin Panel</p>
+                                <p onClick={handleAdminPanelClick} className='cursor-pointer hover:text-black'>Admin Panel</p>
                                 <p onClick={logOut} className='cursor-pointer hover:text-black'>Logout</p>
                             </div>
-                        </div>}
+                        </div>
+                    }
                 </div>
 
                 <Link to='/cart' className='relative'>
                     <img src={assets.cart_icon} className='w-5 min-w-5' alt="" />
-                    <p className='absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[-8px]' >{getCartCount()}</p>
+                    <p className='absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[-8px]'>{getCartCount()}</p>
                 </Link>
                 <img onClick={() => setVisible(true)} src={assets.menu_icon} className='w-5 cursor-pointer sm:hidden' alt="" />
             </div>
 
-            {/* sidebarmenu for smaller screen */}
+            {/* Sidebar menu for smaller screens */}
             <div className={`absolute top-0 right-0 bottom-0 overflow-hidden bg-white transition-all ${visible ? 'w-full' : 'w-0'}`}>
                 <div onClick={() => setVisible(false)} className='flex flex-col text-gray-600'>
                     <div className='flex items-center gap-4 p-3 cursor-pointer'>
-                        <img className='h-4 rotate-180' src={assets.dropdown_icon} />
+                        <img className='h-4 rotate-180' src={assets.dropdown_icon} alt="Back" />
                         <p>Back</p>
                     </div>
                     <NavLink onClick={() => setVisible(false)} className='py-2 pl-6 border' to='/'>HOME</NavLink>
@@ -87,7 +85,7 @@ const Navbar = () => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Navbar
+export default Navbar;
