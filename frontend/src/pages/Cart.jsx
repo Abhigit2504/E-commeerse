@@ -5,13 +5,12 @@ import { assets } from '../assets/assets';
 import CartTotal from '../components/CartTotal';
 
 const Cart = () => {
-  const { products, currency, cartItems, updateQuantity, navigate } = useContext(ShopContext);
+  const { products, currency, cartItems, updateQuantity, navigate,getUserCart } = useContext(ShopContext);
 
   const [cartData, setCartData] = useState([]);
 
   useEffect(() => {
-    // getUserCart()
-    // console.log("HI")
+    getUserCart(localStorage.token)
     if (products.length > 0) {  // Fixed condition to ensure products exist
       const tempData = [];
       for (const items in cartItems) {
@@ -36,7 +35,7 @@ const Cart = () => {
       </div>
       <div className=''>
         {
-          cartData.map((item, index) => {
+          cartData?.map((item, index) => {
             const productData = products.find((product) => product._id === item._id);
             if (!productData) return null; // Ensure productData exists before rendering
             return (
